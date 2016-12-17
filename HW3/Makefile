@@ -12,7 +12,7 @@ build:
 test: symbol_test
 
 symbol_test:
-	gcc symbol.c symbol_test.c -std=gnu99 -O2 -o symbol_test
+	gcc symbol.c symbol_test.c -std=gnu99 -O2 -g -o symbol_test
 
 clean:
 	rm parser symbol_test

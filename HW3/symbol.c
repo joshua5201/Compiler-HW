@@ -44,7 +44,7 @@ int *mk_array(int array_dim, ...)
     va_end(va);
     return array_indexes;
 }
-static void enlarge_space()
+void enlarge_space()
 {
     struct SymbolEntry *new_data = malloc(2 * st.capacity * sizeof(struct SymbolTable));
     memcpy(new_data, st.data, st.capacity);

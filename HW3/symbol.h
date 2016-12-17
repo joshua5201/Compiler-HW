@@ -39,4 +39,6 @@ int *mk_array(int array_dim, ...);
 int add_entry(const char *name, enum SymbolKind kind, enum SymbolType type, int array_dim, int *array_indexes, void *attr);
 struct SymbolEntry *find_entry(const char *name);
 void print_table();
+/* for testing */
+void enlarge_space();
 #endif

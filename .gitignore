@@ -1,0 +1,5 @@
+*.swp
+/HW1/scanner
+/HW2/parser
+/HW3/parser
+/HW3/symbol_test
