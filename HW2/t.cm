@@ -1,0 +1,9 @@
+#pragma source off
+#pragma token off
+#pragma statistic off
+
+int main()
+{
+    int a = 5, b, c, d[2][2] = {1, 2+3, 12 * (1) + 4};
+
+}
