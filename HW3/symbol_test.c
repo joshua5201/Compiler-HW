@@ -34,9 +34,12 @@ static void test_entry()
     assert(st.data[st.size - 1].array_indexes[0] == 3);
     assert(st.data[st.size - 1].level == 1);
     assert(st.data[st.size - 1].level_offset == 4);
+    print_table();
     push_scope();
     pop_scope();
     pop_scope();
+    push_scope();
+    print_table();
     assert(strcmp(st.data[st.size - 1].name, "test4") == 0);
     assert(st.size == 4);
 }
@@ -50,6 +53,7 @@ static void test_mk_array()
     assert(array[0] == 213);
     assert(array[1] == 23);
     assert(array[2] == 12);
+    free(array);
 }
 static void test_enlarge_space()
 {

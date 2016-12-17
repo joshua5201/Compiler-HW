@@ -98,7 +98,7 @@ static char *type_str(enum SymbolType type)
 {
     switch (type) {
         case S_INT:
-            return "interger";
+            return "int";
         case S_FLOAT: 
             return "float";
         case S_DOUBLE:
@@ -122,9 +122,11 @@ static char *scope_str(enum ScopeType type)
             return NULL;
     }
 }
-static char *array_str(int array_dim, int *array_indexes)
+static void print_array_str(int array_dim, int *array_indexes)
 {
-    return "";
+    for (int i = 0; i < array_dim; i++) {
+        printf("[%d]", array_indexes[i]);
+    }
 }
 static char *attr_str(void *attr)
 {
@@ -132,12 +134,14 @@ static char *attr_str(void *attr)
 }
 static void print_entry(struct SymbolEntry *e)
 {
-    printf("%s\t%s\t\t%d(%s)\t%s%s\t\t%s\n", e->name, kind_str(e->kind), e->level, scope_str(e->level), type_str(e->type), array_str(e->array_dim, e->array_indexes), attr_str(e->attr));
+    printf("%-8s\t%s\t%d(%s)\t%s", e->name, kind_str(e->kind), e->level, scope_str(e->level), type_str(e->type));
+    print_array_str(e->array_dim, e->array_indexes);
+    putchar('\n');
 }
 void print_table()
 {
-    printf("Name\tKind\t\tLevel\tType\t\tAttribute\n");
-    printf("----------------------------------------------\n");
+    printf("Name\t\tKind\t\tLevel\t\tType\tAttribute\n");
+    printf("--------------------------------------------------------------------------\n");
     for (int i = 0; i < st.size; i++) {
         print_entry(&st.data[i]);
     }
