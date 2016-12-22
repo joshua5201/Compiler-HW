@@ -1,0 +1,49 @@
+/* errors */
+void array_mismatch(int qwe[1][2]);
+void array_mismatch(int qwe[1][2][3])
+{
+    int a;
+    int a;
+    double b = "aaa";
+    while (1) {
+    }
+    if (1) {
+    }
+    if ("111") {
+    }
+    break;
+    1 + "11" + true;
+
+    1 % "12";
+    qwerrtyuui;
+    array_mismatch = 5;
+    int jizzzz[1] = {1, 2};
+    int aaaaaaaaa[0] = {1};
+    aaaaaa(1, 3);
+    bbbbbb(1);
+    bbbbbb(2, 3);
+    bbbbbb();
+    a = qwq;
+    a();
+    qwe[0][0];
+    a[1][2];
+}
+void redef() 
+{
+}
+void redef()
+{
+}
+void redecl();
+void redecl();
+void invalid_def(int a);
+void invalid_def(int a, int b);
+int ret_type();
+double ret_type()
+{
+}
+int conflic_param(int cccc, int cccc)
+{
+}
+const int asdfg = 1.2;
+const int asdfg = 2;

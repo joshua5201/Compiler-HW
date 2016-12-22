@@ -1,13 +1,16 @@
 %{
 #include "y.tab.h"
+#include "parser_utils.h"
+#include "actions.h"
+#include <stdlib.h>
 #define LIST                { strncat(buf, yytext, sizeof(buf) - strlen(buf) - 1); }
 #define token(t)            { LIST; if (opt_token) printf("<%s>\n", #t); }
 #define token_string(t, s)   { LIST; if (opt_token) printf("<%s:%s>\n", t, s); }
 #define MAX_LINE_LENGTH 257
 #define MAX_ID_LENGTH 257
-int opt_source = 1;
-int opt_token = 1;
-int opt_statistic = 1;
+int opt_source = 0;
+int opt_token = 0;
+int opt_statistic = 0;
 int opt_symbol = 0;
 int linenum = 1;
 char buf[MAX_LINE_LENGTH];
@@ -286,11 +289,6 @@ static void add_identifier(char *);
     return READ;
 }
 
-<INITIAL>boolean {
-    token_string("KW", "boolean");
-    return BOOLEAN;
-}
-
 <INITIAL>bool {
     token_string("KW", "bool");
     return BOOL;
@@ -350,31 +348,34 @@ static void add_identifier(char *);
     }
     filtered[new_length] = '\0';
     token_string("string", filtered);
+    yylval.strval = strdup(filtered);
     return STRING_LITERAL;
 }
 
 <INITIAL>[a-zA-Z_][a-zA-Z_1-9]* {
     token_string("id", yytext);
     add_identifier(yytext);
+    yylval.id = make_id(NULL, yytext);
     return ID;
 }
 
 <INITIAL>([1-9][0-9]*)|0 {
     token_string("integer", yytext);
+    yylval.val = atoi(yytext);
     return INT_LITERAL;
 }
 
 <INITIAL>[0-9]+\.[0-9]+ {
     token_string("float", yytext);
+    yylval.lfval = atof(yytext);
     return FLOAT_LITERAL;
 }
 
 <INITIAL>[0-9]*(\.[0-9]+)?[eE][+-]?[0-9]+ {
     token_string("scientific", yytext);
+    sscanf(yytext, "%lf", &yylval.lfval); 
     return SCIENTIFIC_LITERAL;
 }
-
-
 
 [ \t] {
     LIST;

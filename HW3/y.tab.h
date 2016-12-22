@@ -47,75 +47,94 @@ extern int yydebug;
   {
     SEMICOLON = 258,
     ID = 259,
-    INT = 260,
-    WHILE = 261,
-    DO = 262,
-    IF = 263,
-    ELSE = 264,
-    TRUE = 265,
-    FALSE = 266,
-    FOR = 267,
-    CONST = 268,
-    READ = 269,
-    BOOLEAN = 270,
-    BOOL = 271,
-    VOID = 272,
-    FLOAT = 273,
-    DOUBLE = 274,
-    STRING = 275,
-    CONTINUE = 276,
-    BREAK = 277,
-    RETURN = 278,
-    PRINT = 279,
-    STRING_LITERAL = 280,
-    FLOAT_LITERAL = 281,
-    INT_LITERAL = 282,
-    SCIENTIFIC_LITERAL = 283,
-    OR = 284,
-    AND = 285,
-    EQ = 286,
-    NEQ = 287,
-    GEQ = 288,
-    LEQ = 289
+    WHILE = 260,
+    DO = 261,
+    IF = 262,
+    ELSE = 263,
+    TRUE = 264,
+    FALSE = 265,
+    FOR = 266,
+    CONST = 267,
+    READ = 268,
+    CONTINUE = 269,
+    BREAK = 270,
+    RETURN = 271,
+    PRINT = 272,
+    STRING_LITERAL = 273,
+    FLOAT_LITERAL = 274,
+    SCIENTIFIC_LITERAL = 275,
+    INT_LITERAL = 276,
+    OR = 277,
+    AND = 278,
+    EQ = 279,
+    NEQ = 280,
+    GEQ = 281,
+    LEQ = 282,
+    INT = 283,
+    BOOL = 284,
+    VOID = 285,
+    FLOAT = 286,
+    DOUBLE = 287,
+    STRING = 288
   };
 #endif
 /* Tokens.  */
 #define SEMICOLON 258
 #define ID 259
-#define INT 260
-#define WHILE 261
-#define DO 262
-#define IF 263
-#define ELSE 264
-#define TRUE 265
-#define FALSE 266
-#define FOR 267
-#define CONST 268
-#define READ 269
-#define BOOLEAN 270
-#define BOOL 271
-#define VOID 272
-#define FLOAT 273
-#define DOUBLE 274
-#define STRING 275
-#define CONTINUE 276
-#define BREAK 277
-#define RETURN 278
-#define PRINT 279
-#define STRING_LITERAL 280
-#define FLOAT_LITERAL 281
-#define INT_LITERAL 282
-#define SCIENTIFIC_LITERAL 283
-#define OR 284
-#define AND 285
-#define EQ 286
-#define NEQ 287
-#define GEQ 288
-#define LEQ 289
+#define WHILE 260
+#define DO 261
+#define IF 262
+#define ELSE 263
+#define TRUE 264
+#define FALSE 265
+#define FOR 266
+#define CONST 267
+#define READ 268
+#define CONTINUE 269
+#define BREAK 270
+#define RETURN 271
+#define PRINT 272
+#define STRING_LITERAL 273
+#define FLOAT_LITERAL 274
+#define SCIENTIFIC_LITERAL 275
+#define INT_LITERAL 276
+#define OR 277
+#define AND 278
+#define EQ 279
+#define NEQ 280
+#define GEQ 281
+#define LEQ 282
+#define INT 283
+#define BOOL 284
+#define VOID 285
+#define FLOAT 286
+#define DOUBLE 287
+#define STRING 288
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+
+union YYSTYPE
+{
+#line 18 "parser.y" /* yacc.c:1909  */
+
+    int count;
+    int val;
+    float fval;
+    double lfval;
+    char *strval;
+    struct SymbolEntry *sym;
+    struct IDPair *id;
+    struct Attribute *attr;
+    struct AttrList *list;
+    struct TypeInfo *type_info;
+    struct ArrayRef *aref;
+    struct Assignment *assign;
+
+#line 135 "y.tab.h" /* yacc.c:1909  */
+};
+
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
