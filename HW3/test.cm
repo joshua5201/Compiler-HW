@@ -61,7 +61,7 @@ double g(int c)
     ss = fs(ss, "asdsda");
     return 2;
 }
-void aaaaaa(string aasdada[1][2], int a)
+void aaaaaa(string aasdada[100][20], int a)
 {
     {
         const string jizzz = "js";

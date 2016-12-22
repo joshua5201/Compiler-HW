@@ -14,14 +14,14 @@ struct TypeInfo int_type = { .type = S_INT, .array_dim = 0, .array_sizes = NULL 
 static void sem_error(int line, const char *msg)
 {
     char s[128];
-    snprintf(s, 127, "##########Error at Line %d: %s.##########\n", line, msg);
+    snprintf(s, 127, "##########Error at Line %d: %s.##########", line, msg);
     push_error(s);
 }
 
 static void sem_error_with_id(int line, const char *msg, struct IDPair *id)
 {
     char s[128];
-    snprintf(s, 127, "##########Error at Line %d: %s `%s'.##########\n", line, msg, id->name);
+    snprintf(s, 127, "##########Error at Line %d: %s `%s'.##########", line, msg, id->name);
     push_error(s);
 }
 static int convertible(enum SymbolType type)
@@ -54,33 +54,33 @@ struct IDPair *make_id(struct IDPair *id, const char *name)
 
     return id;
 }
-struct Attribute *make_attr(enum AttrType attr_type, union AttrData data)
+struct Attribute *make_attr(enum AttrType attr_type, union AttrData *data)
 {
     struct Attribute *new_attr = malloc(sizeof(struct Attribute));
     new_attr->next = NULL;
     new_attr->type = attr_type;
     switch (attr_type) {
         case S_ARG:
-            new_attr->data.arg = data.arg;
+            new_attr->data.arg = data->arg;
             break;
         case S_ATTR_PARAM:
-            new_attr->data.param = data.param;
+            new_attr->data.param = data->param;
             break;
         case S_ELEM:
-            new_attr->data.param = data.elem;
+            new_attr->data.elem = data->elem;
             break;
         case S_LIST:
-            new_attr->data.sublist = data.sublist;
+            new_attr->data.sublist = data->sublist;
             break;
         case S_CONST_INT:
         case S_CONST_BOOL:
-            new_attr->data.val = data.val;
+            new_attr->data.val = data->val;
             break;
         case S_CONST_DOUBLE:
-            new_attr->data.lfval = data.lfval;
+            new_attr->data.lfval = data->lfval;
             break;
         case S_CONST_STR:
-            new_attr->data.str = strdup(data.str);
+            new_attr->data.str = strdup(data->str);
             break;
         default:
             break;
@@ -89,11 +89,14 @@ struct Attribute *make_attr(enum AttrType attr_type, union AttrData data)
 }
 static struct AttrList *push_attr(struct AttrList *attr_list, enum AttrType attr_type, union AttrData *data)
 {
-    struct Attribute *new_attr = make_attr(attr_type, *data);
     if (attr_list == NULL) {
         attr_list = malloc(sizeof(struct AttrList));
         attr_list->head = attr_list->tail = NULL;
     }
+    if (data == NULL) {
+        return attr_list;
+    }
+    struct Attribute *new_attr = make_attr(attr_type, data);
     if (attr_list->head == NULL) {
         attr_list->head = attr_list->tail = new_attr;
         return attr_list;
@@ -296,19 +299,19 @@ no_need_to_check: /* great spaghetti code */
 }
 struct Attribute *make_string(const char *str)
 {
-    return make_attr(S_CONST_STR, (union AttrData)str);
+    return make_attr(S_CONST_STR, (union AttrData*)&str);
 }
 struct Attribute *make_int(const int val)
 {
-    return make_attr(S_CONST_INT, (union AttrData)val);
+    return make_attr(S_CONST_INT, (union AttrData*)&val);
 }
 struct Attribute *make_float_lit(const double lfval)
 {
-    return make_attr(S_CONST_DOUBLE, (union AttrData)lfval);
+    return make_attr(S_CONST_DOUBLE, (union AttrData*)&lfval);
 }
 struct Attribute *make_bool(const int boolval)
 {
-    return make_attr(S_CONST_BOOL, (union AttrData)boolval);
+    return make_attr(S_CONST_BOOL, (union AttrData*)&boolval);
 }
 struct Attribute *default_const_lt(enum SymbolType type)
 {
@@ -583,6 +586,18 @@ void scaler_var_decl(enum SymbolType type, struct IDPair *id)
     }
     id->type_info.array_dim = 0;
     id->type_info.array_sizes = NULL;
+    id->type_info.type = type;
+    struct SymbolEntry *e = add_entry(id);
+    e->kind = S_VAR;
+}
+void array_var_decl(enum SymbolType type, struct IDPair *id)
+{
+    if (find_entry_in_scope(id)) {
+        sem_error_with_id(linenum, "redeclation of", id);
+        char temp_name[33];
+        sprintf(temp_name, "conflict_id%d", conflict_id_count++);
+        strcpy(id->name, temp_name);
+    }
     id->type_info.type = type;
     struct SymbolEntry *e = add_entry(id);
     e->kind = S_VAR;

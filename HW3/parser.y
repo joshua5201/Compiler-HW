@@ -8,7 +8,7 @@
 extern int linenum;
 extern FILE *yyin;
 extern char *yytext;
-extern char buf[1024]; 
+extern char buf[256]; 
 extern int opt_symbol; 
 enum SymbolType should_return = NULL_TYPE;
 int last_stmt_is_return = 0;
@@ -116,10 +116,12 @@ param_list : param_list ',' expr { $$ = push_param($1, $3); }
 var_decl : type identifier_list SEMICOLON ;
 
 identifier_list : identifier_list ',' ID { scaler_var_decl($<val>0, $3); }
+                | identifier_list ',' array_identifier { array_var_decl($<val>0, $3); }
                 | identifier_list ',' scaler_assignment { scaler_var_def($<val>0, $3); }
                 | identifier_list ',' array_assignment { array_var_def($<val>0, $3); }
                 | scaler_assignment { scaler_var_def($<val>0, $1); }
                 | array_assignment { array_var_def($<val>0, $1); }
+                | array_identifier { array_var_decl($<val>0, $1); }
                 | ID { scaler_var_decl($<val>0, $1); }
                 ;
 

@@ -4,7 +4,6 @@
 
 struct IDPair *make_id(struct IDPair *id, const char *name);
 struct AttrList *push_arg(struct AttrList *arg_list, struct IDPair *arg);
-struct Attribute *make_attr(enum AttrType attr_type, union AttrData data);
 struct IDPair *make_arg(enum SymbolType type, struct IDPair *id);
 void push_array_dim(struct IDPair *id, int size);
 void func_decl(enum SymbolType type, struct IDPair *id, struct AttrList *arg_list);
@@ -34,6 +33,7 @@ void scaler_var_def(enum SymbolType type, struct Assignment *as);
 struct AttrList *push_elem(struct AttrList *elem_list, struct TypeInfo *elem);
 struct Assignment *array_assignment(struct IDPair *id, struct AttrList *array_literal);
 void array_var_def(enum SymbolType type, struct Assignment *as);
+void array_var_decl(enum SymbolType type, struct IDPair *id);
 struct TypeInfo *array_ref_assignment(struct ArrayRef *aref, struct TypeInfo *expr);
 void check_cond(struct TypeInfo *expr);
 void check_return(struct IDPair *id);

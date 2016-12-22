@@ -8,7 +8,7 @@ extern struct SymbolTable st;
 extern int opt_symbol; 
 void init_symbol_table()
 {
-    st.data = malloc(sizeof(struct SymbolTable) * SYM_INIT_SIZE);
+    st.data = malloc(sizeof(struct SymbolEntry) * SYM_INIT_SIZE);
     if (st.data == NULL) {
         return ;
     }
@@ -36,7 +36,7 @@ void pop_scope()
 }
 static void enlarge_space()
 {
-    struct SymbolEntry *new_data = malloc(2 * st.capacity * sizeof(struct SymbolTable));
+    struct SymbolEntry *new_data = malloc(2 * st.capacity * sizeof(struct SymbolEntry));
     memcpy(new_data, st.data, st.capacity);
     free(st.data);
     st.data = new_data;
