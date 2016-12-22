@@ -1,4 +1,7 @@
-/* errors */
+#pragma symbol on
+#pragma token off
+#pragma source off
+#pragma statistic off
 void array_mismatch(int qwe[1][2]);
 void array_mismatch(int qwe[1][2][3])
 {

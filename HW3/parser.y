@@ -289,6 +289,10 @@ int main( int argc, char **argv )
     yyparse();
     
     if (has_sem_error) {
+        fprintf( stdout, "\n" );
+        fprintf( stdout, "|---------------------------------------------|\n" );
+        fprintf( stdout, "|  There is no syntactic error!               |\n" );
+        fprintf( stdout, "|---------------------------------------------|\n" );
         exit(-1);
     }
 
