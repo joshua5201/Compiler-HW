@@ -6,6 +6,7 @@ const string a = "as";
 double g(int c);
 int f()
 {
+    double aaaaa222220000;
     double a = g(1);
     return 1;
 }

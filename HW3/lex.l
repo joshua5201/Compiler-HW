@@ -352,7 +352,7 @@ static void add_identifier(char *);
     return STRING_LITERAL;
 }
 
-<INITIAL>[a-zA-Z_][a-zA-Z_1-9]* {
+<INITIAL>[a-zA-Z_][a-zA-Z_0-9]* {
     token_string("id", yytext);
     add_identifier(yytext);
     yylval.id = make_id(NULL, yytext);
