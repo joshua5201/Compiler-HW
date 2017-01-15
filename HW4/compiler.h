@@ -25,31 +25,14 @@ enum SymbolType {
 
 enum ScopeType { S_GLOBAL = 0, S_LOCAL };
 
-struct ArraySize {
-    int size;
-    struct ArraySize *next;
-};
-
-struct TypeInfo {
-    enum SymbolType type;
-    struct ArraySize *array_sizes;
-    struct ArraySize *array_tail;
-    int array_dim;
-};
-
-struct IDPair {
+struct Identifier {
     char name[33];
-    struct TypeInfo type_info;
-};
-struct ArrayRef {
-    struct IDPair *id;
-    int referenced;
-    int error;
+    enum SymbolType type;
 };
 
 struct TypeInfo;
-struct AttrList;
-enum AttrType {
+struct List;
+enum ListType {
     S_ARG = 0,
     S_ATTR_PARAM,
     S_CONST_INT,
@@ -59,36 +42,36 @@ enum AttrType {
     S_ELEM,
     S_LIST
 };
-struct AttrList {
-    struct Attribute *head;
-    struct Attribute *tail;
+struct List {
+    struct ListNode *head;
+    struct ListNode *tail;
 };
-union AttrData {
+union ListData {
     int val;
     double lfval;
     const char *str;
-    struct IDPair arg;
+    struct Identifier arg;
     struct TypeInfo param;
     struct TypeInfo elem;
-    struct AttrList sublist;
+    struct List sublist;
 };
-struct Attribute {
-    enum AttrType type;
-    struct Attribute *next;
-    union AttrData data;
+struct ListNode {
+    enum ListType type;
+    struct ListNode *next;
+    union ListData data;
 };
 struct Assignment {
-    struct IDPair *id;
-    struct TypeInfo *expr;
-    struct AttrList *array;
+    struct Identifier *id;
+    enum SymbolType type;
 };
 struct SymbolEntry {
-    struct IDPair id;
+    struct Identifier id;
     int level;
     int level_offset;
     enum SymbolKind kind;
-    struct Attribute *attributes;
+    struct ListNode *attributes;
 };
+
 struct SymbolTable {
     struct SymbolEntry *data;
     int size;

@@ -22,11 +22,11 @@ int in_loop = 0;
     double lfval;
     char *strval;
     struct SymbolEntry *sym;
-    struct IDPair *id;
-    struct Attribute *attr;
-    struct AttrList *list;
-    struct TypeInfo *type_info;
+    struct Identifier *id;
+    struct Expr *expr;
     struct Assignment *assign;
+    struct Literal *literal;
+    struct List *list;
 };
 
 %token SEMICOLON
@@ -41,9 +41,9 @@ int in_loop = 0;
 %type <sym> func_decl func_def
 %type <val> type
 %type <list> arg_list param_list
-%type <attr> scaler_literal
+%type <literal> scaler_literal
 %type <assign> scaler_assignment 
-%type <type_info> expr func_invoke
+%type <expr> expr func_invoke
 %left OR
 %left AND
 %left '!'
